@@ -377,7 +377,7 @@ export const openApiSpec: OpenAPIV3.Document = {
                 },
             },
         },
-        '/api/user': {
+        '/api/users': {
             get: {
                 tags: ['user'],
                 summary: 'List users',
@@ -459,7 +459,7 @@ export const openApiSpec: OpenAPIV3.Document = {
                 },
             },
         },
-        '/api/user/{id}': {
+        '/api/users/{id}': {
             get: {
                 tags: ['user'],
                 summary: 'Get user by ID',
@@ -592,7 +592,7 @@ export const openApiSpec: OpenAPIV3.Document = {
                 },
             },
         },
-        '/api/organization': {
+        '/api/organizations': {
             get: {
                 tags: ['organization'],
                 summary: 'List organizations',
@@ -667,7 +667,7 @@ export const openApiSpec: OpenAPIV3.Document = {
                 },
             },
         },
-        '/api/organization/{id}': {
+        '/api/organizations/{id}': {
             get: {
                 tags: ['organization'],
                 summary: 'Get organization by ID',
@@ -811,7 +811,7 @@ export const openApiSpec: OpenAPIV3.Document = {
                 },
             },
         },
-        '/api/order': {
+        '/api/orders': {
             get: {
                 tags: ['order'],
                 summary: 'List orders',
@@ -920,7 +920,7 @@ export const openApiSpec: OpenAPIV3.Document = {
                 },
             },
         },
-        '/api/order/{id}': {
+        '/api/orders/{id}': {
             get: {
                 tags: ['order'],
                 summary: 'Get order by ID',

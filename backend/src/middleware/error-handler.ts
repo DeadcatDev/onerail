@@ -25,7 +25,6 @@ function buildErrorBody(req: Request, res: Response, code: string, message: stri
     };
 }
 
-// 404
 export function notFoundHandler(req: Request, res: Response) {
     const body = buildErrorBody(req, res, 'NOT_FOUND', 'Resource not found');
     res.status(404).json(body);
@@ -33,7 +32,6 @@ export function notFoundHandler(req: Request, res: Response) {
 
 
 export function errorHandler(err: any, req: Request, res: Response, _next: NextFunction) {
-    // Known service errors
     if (err instanceof ValidationError) {
         const body = buildErrorBody(req, res, 'VALIDATION_ERROR', err.message);
         return res.status(400).json(body);

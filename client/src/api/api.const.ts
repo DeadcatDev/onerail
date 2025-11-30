@@ -3,7 +3,7 @@ export const API_URL: {
     ORGANIZATION: string;
     ORDER: string;
 } = {
-    USER: '/api/user/',
-    ORGANIZATION: '/api/organization/',
-    ORDER: '/api/order/',
+    USER: '/api/users/',
+    ORGANIZATION: '/api/organizations/',
+    ORDER: '/api/orders/',
 };

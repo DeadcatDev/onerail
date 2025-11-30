@@ -97,7 +97,6 @@ router.post('/seed', async (_req: Request, res: Response) => {
             });
         }
 
-        // 3) Create 20 orders for the created users
         const orders = [] as { id: string }[];
         for (let i = 0; i < 20; i++) {
             const user = users[randInt(0, users.length - 1)];

@@ -1,9 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 
-// Mock express-rate-limit to capture options
 const rateLimitMock: any = jest.fn((opts) => {
     rateLimitMock.opts = opts;
-    // return passthrough middleware by default
     return (req: Request, _res: Response, next: NextFunction) => next();
 });
 
@@ -17,7 +15,6 @@ jest.setSystemTime(new Date('2020-01-01T00:00:00.000Z'));
 
 describe('perOrganizationRateLimiter', () => {
     beforeEach(() => {
-        // Clear previous captured opts
         rateLimitMock.opts = undefined;
         jest.resetModules();
     });
@@ -52,7 +49,6 @@ describe('perOrganizationRateLimiter', () => {
             locals: { requestId: 'req-123' },
         };
         const req: any = { method: 'GET', originalUrl: '/api/x', user: { organizationId: 'org-9' } };
-        // invoke handler directly
         await opts.handler(req, res);
         expect(res.status).toHaveBeenCalledWith(429);
         expect(json).toHaveBeenCalledWith({

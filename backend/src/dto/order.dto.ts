@@ -6,8 +6,8 @@ import type { OrganizationDTO } from './organization.dto';
 
 export interface OrderDTO {
     id: string;
-    orderDate: string; // ISO string
-    totalAmount: number; // ensure number
+    orderDate: string;
+    totalAmount: number;
     userId: string;
     organizationId: string;
     // Joins

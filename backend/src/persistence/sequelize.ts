@@ -37,7 +37,6 @@ async function init(): Promise<void> {
         );
     }
 
-    // Wait for MySQL port to become available (especially important in Docker Compose)
     await waitPort({
         host,
         port: 3306,
@@ -45,7 +44,6 @@ async function init(): Promise<void> {
         waitForDns: true,
     } as any);
 
-    // Helper to initialize the Sequelize instance bound to the target database
     const initSequelizeWithDb = () =>
         new Sequelize(
             database as string,
@@ -58,7 +56,6 @@ async function init(): Promise<void> {
             },
         );
 
-    // Attempt to connect to the target DB; if it doesn't exist, create it first
     try {
         sequelize = initSequelizeWithDb();
         await sequelize.authenticate();
@@ -69,7 +66,6 @@ async function init(): Promise<void> {
             code === 'ER_BAD_DB_ERROR' || /Unknown database/i.test(msg);
         if (!isUnknownDb) throw err;
 
-        // Connect to the server using the default 'mysql' database and create the target DB
         const serverLevel = new Sequelize(
             'mysql',
             user as string,
@@ -88,12 +84,10 @@ async function init(): Promise<void> {
             await serverLevel.close().catch(() => {});
         }
 
-        // Recreate the connection bound to the target DB
         sequelize = initSequelizeWithDb();
         await sequelize.authenticate();
     }
 
-    // New domain models per requirements: organization, user, order
     class OrganizationModel extends Model<
         InferAttributes<OrganizationModel>,
         InferCreationAttributes<OrganizationModel>
@@ -176,7 +170,6 @@ async function init(): Promise<void> {
         { tableName: 'orders', timestamps: false, sequelize },
     );
 
-    // Associations
     OrganizationModel.hasMany(UserModel, {
         foreignKey: 'organizationId',
         constraints: false,

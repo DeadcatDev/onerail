@@ -73,7 +73,6 @@ async function ensureSequelize(): Promise<Sequelize> {
         );
     }
 
-    // Wait for port (same behavior as persistence init). We do not create DB/tables here.
     await waitPort({
         host,
         port: 3306,
@@ -151,7 +150,6 @@ export async function getModels() {
             { tableName: 'orders', timestamps: false, sequelize: seq },
         );
 
-        // Soft associations (no FK constraints enforced here)
         OrganizationModel.hasMany(UserModel, {
             foreignKey: 'organizationId',
             constraints: false,

@@ -33,9 +33,9 @@ app.use(rateLimiter);
 
 // Main controllers
 app.use(authController);
-app.use('/api/user', userController);
-app.use('/api/organization', organizationController);
-app.use('/api/order', orderController);
+app.use('/api/users', userController);
+app.use('/api/organizations', organizationController);
+app.use('/api/orders', orderController);
 
 // Error handlers
 app.use(notFoundHandler);

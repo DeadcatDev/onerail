@@ -11,7 +11,6 @@ export function parsePagination(req: Request): PaginationParams {
     return { page, limit };
 }
 
-// Caching helpers
 export const DEFAULT_CACHE_TTL_SECONDS: number =
     Number(process.env.CACHE_TTL_SECONDS || '') || 600;
 
@@ -25,7 +24,6 @@ export function setPublicCache(
     );
 }
 
-// Helpers to handle cached responses consistently
 export function sendCachedPublic(
     res: Response,
     body: any,
@@ -46,7 +44,7 @@ export function sendCachedWithETag(req: Request, res: Response, body: any) {
     return res.send(body);
 }
 
-// For cache misses: cache the body under the given key and handle ETag/304 logic
+// Handle ETag/304 logic
 export function sendAndCacheWithETag(
     req: Request,
     res: Response,

@@ -1,8 +1,8 @@
 export type UUID = string;
 
 export interface PaginationParams {
-    page?: number; // 1-based
-    limit?: number; // items per page
+    page?: number;
+    limit?: number;
 }
 
 export interface PaginatedResult<T> {

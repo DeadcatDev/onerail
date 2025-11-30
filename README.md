@@ -1,12 +1,16 @@
 ## How to run?
 
-Hit in console:
+1) Copy `.env.example` to `.env`:
+
+`cp .env.template .env`
+
+2) Hit in console:
 
 `docker compose up --build`
 
 (or `docker compose up --build --watch` to dev) 
 
-give it a few moments to build and wakeup then in browser:
+3) give it a few moments to build and wakeup then in browser:
 
 `localhost`
 

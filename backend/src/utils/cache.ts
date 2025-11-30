@@ -69,7 +69,6 @@ export function makeItemKey(entity: string, id: string): string {
     return `${entity}:item:${id}`;
 }
 
-// Convenience helpers to keep controllers/services DRY
 export function invalidateList(entity: string): void {
     delByPrefix(`${entity}:list`);
 }

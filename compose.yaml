@@ -12,14 +12,14 @@ services:
       context: ./
       target: backend-dev
     environment:
-      MYSQL_HOST: mysql
-      MYSQL_USER: root
-      MYSQL_PASSWORD: secret
-      MYSQL_DB: oneRailExerciseDb
-      LOG_LEVEL: debug
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      JWT_SECRET: supersecret_dev_key_change_me
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DB: ${MYSQL_DB}
+      LOG_LEVEL: ${LOG_LEVEL}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      JWT_SECRET: ${JWT_SECRET}
     depends_on:
       mysql:
         condition: service_healthy
@@ -60,8 +60,8 @@ services:
     volumes:
       - onerail-mysql-data:/var/lib/mysql
     environment: 
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: oneRailExerciseDb
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
