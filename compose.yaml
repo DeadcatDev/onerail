@@ -1,0 +1,86 @@
+services:
+  proxy:
+    image: traefik:v3.6
+    command: --providers.docker
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  backend:
+    build:
+      context: ./
+      target: backend-dev
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: oneRailExerciseDb
+      LOG_LEVEL: debug
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: supersecret_dev_key_change_me
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    develop:
+      watch:
+        - path: ./backend/src
+          action: sync
+          target: /usr/local/app/src
+        - path: ./backend/package.json
+          action: rebuild
+    labels:
+      traefik.http.routers.backend.rule: Host(`localhost`) && PathPrefix(`/api`)
+      traefik.http.services.backend.loadbalancer.server.port: 3000
+      traefik.http.routers.backend-swagger.rule: Host(`localhost`) && PathPrefix(`/swagger`)
+      traefik.http.routers.backend-swagger-json.rule: Host(`localhost`) && Path(`/swagger.json`)
+
+  client:
+    build:
+      context: ./
+      target: client-dev
+    develop:
+      watch:
+        - path: ./client/src
+          action: sync
+          target: /usr/local/app/src
+        - path: ./client/package.json
+          action: rebuild
+    labels:
+      traefik.http.routers.client.rule: Host(`localhost`)
+      traefik.http.services.client.loadbalancer.server.port: 5173
+
+  mysql:
+    image: mysql:9.3
+    ports:
+      - 3306:3306
+    volumes:
+      - onerail-mysql-data:/var/lib/mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: oneRailExerciseDb
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - 6379:6379
+    volumes:
+      - onerail-redis-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  onerail-mysql-data:
+  onerail-redis-data:
